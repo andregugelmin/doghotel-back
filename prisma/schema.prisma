@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  password     String
+  photoUrl     String
+  city         String
+  address      String
+  isHost       Boolean   @default(false)
+  Dog          Dog[]
+  Host         Host[]
+  hostHosting  Hosting[] @relation("hostHosting ")
+  guestHosting Hosting[] @relation("guestHosting ")
+  hostRequest  Request[] @relation("hostRequest")
+  guestRequest Request[] @relation("guestRequest")
+
+  @@map("users")
+}
+
+model Dog {
+  id         Int     @id @default(autoincrement())
+  name       String
+  weight     Int
+  breed      String
+  sex        String
+  isNeutered Boolean
+  userId     Int
+
+  user  User    @relation(fields: [userId], references: [id])
+  Photo Photo[]
+
+  @@map("dogs")
+}
+
+model Host {
+  id        Int @id @default(autoincrement())
+  price     Int
+  minWeight Int
+  maxWeight Int
+  userId    Int
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("hosts")
+}
+
+model Hosting {
+  id            Int      @id @default(autoincrement())
+  entryDate     DateTime
+  departureDate DateTime
+  guestId       Int
+  hostId        Int
+  isActive      Boolean
+
+  host  User @relation(name: "hostHosting ", fields: [hostId], references: [id])
+  guest User @relation(name: "guestHosting ", fields: [guestId], references: [id])
+
+  @@map("hostings")
+}
+
+model Request {
+  id            Int      @id @default(autoincrement())
+  entryDate     DateTime
+  departureDate DateTime
+  guestId       Int
+  hostId        Int
+
+  host  User @relation(name: "hostRequest", fields: [hostId], references: [id])
+  guest User @relation(name: "guestRequest", fields: [guestId], references: [id])
+
+  @@map("requests")
+}
+
+model Photo {
+  id    Int    @id @default(autoincrement())
+  dogId Int
+  url   String
+
+  dog Dog @relation(fields: [dogId], references: [id])
+
+  @@map("photos")
+}
