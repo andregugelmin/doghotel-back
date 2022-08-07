@@ -13,11 +13,12 @@ datasource db {
 model User {
   id           Int       @id @default(autoincrement())
   name         String
+  surname      String
   email        String    @unique
   password     String
-  photoUrl     String
-  city         String
-  address      String
+  photoUrl     String?
+  city         String?
+  address      String?
   isHost       Boolean   @default(false)
   Dog          Dog[]
   Host         Host[]

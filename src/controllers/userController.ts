@@ -2,11 +2,18 @@ import { Request, Response } from 'express';
 import userService from '../services/userService.js';
 import { wrongSchemaError } from '../utils/errorUtils.js';
 
-export async function createUser(req: Request, res: Response) {
-	const { name, email, password, confirmPassword, photoUrl, city, address } = req.body;
+export async function signup(req: Request, res: Response) {
+	const { email, name, surname, password, confirmPassword } = req.body;
 
 	if (password !== confirmPassword) throw wrongSchemaError('Password confirmation differs from password');
 
-	await userService.createUser(name, email, password, photoUrl, city, address);
+	await userService.createUser(email, name, surname, password);
 	res.sendStatus(201);
+}
+
+export async function singin(req: Request, res: Response) {
+	const user = req.body;
+	const token = await userService.signin(user.email, user.password);
+
+	return res.send({ token }).status(200);
 }
