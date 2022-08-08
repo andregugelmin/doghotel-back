@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import userRepository from '../repositories/userRepository.js';
 import { encryptPassword, verifyPassword } from '../utils/encryptUtils.js';
-import { conflictError, unauthorizedError } from '../utils/errorUtils.js';
+import { conflictError, notFoundError, unauthorizedError } from '../utils/errorUtils.js';
 
 async function createUser(email: string, name: string, surname: string, password: string) {
 	const passwordEncrypted = encryptPassword(password);
@@ -13,7 +13,7 @@ async function createUser(email: string, name: string, surname: string, password
 }
 
 async function signin(email: string, password: string) {
-	const userDb = await getUserOrFail(email);
+	const userDb = await getUserOrFailByEmail(email);
 
 	verifyPassword(password, userDb.password);
 
@@ -22,9 +22,16 @@ async function signin(email: string, password: string) {
 	return token;
 }
 
-async function getUserOrFail(email: string) {
+async function getUserOrFailByEmail(email: string) {
 	const user = await userRepository.getByEmail(email);
 	if (!user) throw unauthorizedError('Invalid email');
+
+	return user;
+}
+
+async function getUserOrFailById(id: number) {
+	const user = await userRepository.getById(id);
+	if (!user) throw notFoundError('User not found');
 
 	return user;
 }
@@ -32,6 +39,7 @@ async function getUserOrFail(email: string) {
 const userService = {
 	createUser,
 	signin,
+	getUserOrFailById,
 };
 
 export default userService;

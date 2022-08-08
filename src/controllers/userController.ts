@@ -17,3 +17,11 @@ export async function singin(req: Request, res: Response) {
 
 	return res.send({ token }).status(200);
 }
+
+export async function getOwnUser(req: Request, res: Response) {
+	const { id } = res.locals.user;
+
+	const user = await userService.getUserOrFailById(id);
+
+	return res.send(user).status(200);
+}

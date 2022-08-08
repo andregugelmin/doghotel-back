@@ -11,6 +11,64 @@ async function insert(createUserData: CreateUserData) {
 	}
 }
 
+async function updateData(userId: number, data: any) {
+	try {
+		await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: data,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function updateIsHost(userId: number, bool: boolean) {
+	try {
+		await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: {
+				isHost: bool,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function updateCity(userId: number, city: string) {
+	try {
+		await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: {
+				city,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function updateAddress(userId: number, address: string) {
+	try {
+		await prisma.user.update({
+			where: {
+				id: userId,
+			},
+			data: {
+				address,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 async function getByEmail(email: string) {
 	try {
 		return await prisma.user.findFirst({
@@ -23,9 +81,26 @@ async function getByEmail(email: string) {
 	}
 }
 
+async function getById(id: number) {
+	try {
+		return await prisma.user.findFirst({
+			where: {
+				id,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 const userRepository = {
 	insert,
 	getByEmail,
+	getById,
+	updateData,
+	updateIsHost,
+	updateCity,
+	updateAddress,
 };
 
 export default userRepository;
