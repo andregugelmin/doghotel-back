@@ -9,3 +9,5 @@ export async function hostSignUp(req: Request, res: Response) {
 
 	res.sendStatus(201);
 }
+
+export async function getHostsByName(req: Request, res: Response) {}

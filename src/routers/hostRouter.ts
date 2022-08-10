@@ -7,5 +7,7 @@ import { createHostSchema } from '../schemas/hostSchema.js';
 const hostRouter = Router();
 
 hostRouter.post('/signup/host', validateToken, validateSchema(createHostSchema), hostSignUp);
+hostRouter.get('/hosts/name');
+hostRouter.get('/hosts/city');
 
 export default hostRouter;

@@ -35,7 +35,7 @@ model Dog {
   name       String
   weight     Int
   breed      String
-  sex        String
+  gender     Gender
   isNeutered Boolean
   userId     Int
 
@@ -92,4 +92,9 @@ model Photo {
   dog Dog @relation(fields: [dogId], references: [id])
 
   @@map("photos")
+}
+
+enum Gender {
+  Male
+  Female
 }
