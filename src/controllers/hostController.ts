@@ -10,4 +10,16 @@ export async function hostSignUp(req: Request, res: Response) {
 	res.sendStatus(201);
 }
 
-export async function getHostsByName(req: Request, res: Response) {}
+export async function getHostsByName(req: Request, res: Response) {
+	const { name } = req.body;
+
+	const hosts = await hostService.getHostsByName(name);
+	res.send(hosts).status(200);
+}
+
+export async function getHostsByCity(req: Request, res: Response) {
+	const { name } = req.body;
+
+	const hosts = await hostService.getHostsByCity(name);
+	res.send(hosts).status(200);
+}
