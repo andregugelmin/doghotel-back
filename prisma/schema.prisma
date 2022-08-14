@@ -60,11 +60,12 @@ model Host {
 
 model Hosting {
   id            Int      @id @default(autoincrement())
-  entryDate     DateTime
-  departureDate DateTime
+  entryDate     DateTime @db.Date
+  departureDate DateTime @db.Date
   guestId       Int
   hostId        Int
   isActive      Boolean
+  totalPrice    Int
 
   host  User @relation(name: "hostHosting ", fields: [hostId], references: [id])
   guest User @relation(name: "guestHosting ", fields: [guestId], references: [id])
@@ -74,10 +75,14 @@ model Hosting {
 
 model Request {
   id            Int      @id @default(autoincrement())
-  entryDate     DateTime
-  departureDate DateTime
+  entryDate     DateTime @db.Date
+  departureDate DateTime @db.Date
   guestId       Int
   hostId        Int
+  totalPrice    Int
+  isActive      Boolean  @default(true)
+  isAccepted    Boolean  @default(false)
+  dogsIds       Int[]
 
   host  User @relation(name: "hostRequest", fields: [hostId], references: [id])
   guest User @relation(name: "guestRequest", fields: [guestId], references: [id])

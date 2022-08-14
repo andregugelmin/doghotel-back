@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "hostings" ALTER COLUMN "entryDate" SET DATA TYPE DATE,
+ALTER COLUMN "departureDate" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "requests" ALTER COLUMN "entryDate" SET DATA TYPE DATE,
+ALTER COLUMN "departureDate" SET DATA TYPE DATE;
