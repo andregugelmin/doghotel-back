@@ -1,0 +1,12 @@
+import cors from 'cors';
+import express from 'express';
+import 'express-async-errors';
+import errorHandler from './middlewares/errorHandler.js';
+import router from './routers/index.js';
+var app = express();
+app.use(express.json());
+app.use(cors());
+app.get('/', function (req, res) { return res.send('Application is online'); });
+app.use(router);
+app.use(errorHandler);
+export default app;
