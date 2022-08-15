@@ -23,9 +23,22 @@ async function getByUserId(userId: number) {
 	}
 }
 
+async function getById(id: number) {
+	try {
+		return await prisma.dog.findUnique({
+			where: {
+				id,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 const dogRepository = {
 	insert,
 	getByUserId,
+	getById,
 };
 
 export default dogRepository;

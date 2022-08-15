@@ -25,3 +25,19 @@ export async function addRequest(req: Request, res: Response) {
 
 	return res.sendStatus(201);
 }
+
+export async function acceptRequest(req: Request, res: Response) {
+	const { id } = req.body;
+
+	await requestService.acceptRequest(id);
+
+	return res.sendStatus(200);
+}
+
+export async function rejectRequest(req: Request, res: Response) {
+	const { id } = req.body;
+
+	await requestService.rejectRequest(id);
+
+	return res.sendStatus(200);
+}

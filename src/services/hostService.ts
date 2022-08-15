@@ -41,6 +41,12 @@ async function getHostsByCity(city: string) {
 	return hostsQuery;
 }
 
+async function getHostById(id: number) {
+	const hostsQuery = await hostRepository.getHostUserById(id);
+
+	return hostsQuery;
+}
+
 function removeDuplicatesHostArray(array: any) {
 	const seems = {};
 	let arr = new Array();
@@ -58,6 +64,7 @@ const hostService = {
 	createHost,
 	getHostsByName,
 	getHostsByCity,
+	getHostById,
 };
 
 export default hostService;

@@ -131,12 +131,39 @@ async function getHostsByCity(city: string) {
 	}
 }
 
+async function getHostUserById(id: number) {
+	try {
+		return await prisma.host.findMany({
+			where: {
+				id,
+			},
+			select: {
+				price: true,
+				minWeight: true,
+				maxWeight: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						surname: true,
+						city: true,
+						address: true,
+					},
+				},
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 const hostRepository = {
 	insert,
 	getByUserId,
 	getHostsByNameAndSurname,
 	getHostsByNameOrSurname,
 	getHostsByCity,
+	getHostUserById,
 };
 
 export default hostRepository;
